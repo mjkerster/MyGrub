@@ -10,18 +10,27 @@ public class GrubDbHelper extends SQLiteOpenHelper {
 
     private static GrubDbHelper dbInstance = null;
     public static final String dbName = "GRUB_DB";
-    public static final int version = 1;
-    private static final String tableGrub = "GRUB";
-    private static final String createTable = "CREATE TABLE IF NOT EXISTS "+ tableGrub +" ( _id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                                                                                          " EAT_DATE DATE," +
-                                                                                          " TYPE TEXT," +
-                                                                                          " NAME TEXT," +
-                                                                                          " DESC TEXT," +
-                                                                                          " RATING INTEGER," +
-                                                                                          " PHOTO_CAM BLOB," +
-                                                                                          " PHOTO_THUMB BLOB," +
-                                                                                          " LAT REAL," +
-                                                                                          " LONGI REAL)";
+    public static final int version = 2;
+    public static final String tableGrub = "GRUB";
+    public static final String COL_ID = "_id";
+    public static final String COL_EAT_DATE = "EAT_DATE";
+    public static final String COL_TYPE = "TYPE";
+    public static final String COL_NAME = "NAME";
+    public static final String COL_DESC = "DESC";
+    public static final String COL_RATING = "RATING";
+    public static final String COL_PHOTO_PATH = "PHOTO_PATH";
+    public static final String COL_LAT = "LAT";
+    public static final String COL_LONGI = "LONGI";
+
+    private static final String createTable = "CREATE TABLE IF NOT EXISTS "+ tableGrub +" ( "+ COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                                                                          COL_EAT_DATE +" DATE DEFAULT CURRENT_DATE, " +
+                                                                                          COL_TYPE +" TEXT, " +
+                                                                                          COL_NAME +" TEXT, " +
+                                                                                          COL_DESC +" TEXT, " +
+                                                                                          COL_RATING +" INTEGER, " +
+                                                                                          COL_PHOTO_PATH +" TEXT, " +
+                                                                                          COL_LAT +" REAL, " +
+                                                                                          COL_LONGI +" REAL)";
 
 
     public GrubDbHelper(Context context){
@@ -29,7 +38,7 @@ public class GrubDbHelper extends SQLiteOpenHelper {
     }
 
     public static GrubDbHelper getInstance(Context context){
-        if(dbInstance != null)
+        if(dbInstance == null)
             dbInstance = new GrubDbHelper(context);
 
         return dbInstance;

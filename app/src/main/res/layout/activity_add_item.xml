@@ -1,0 +1,88 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.kss.mygrub.AddItem"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/grub_photo"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:clickable="true"
+        android:scaleType="fitCenter"
+        android:background="@android:color/darker_gray"
+        android:src="@drawable/ic_action_picture" />
+
+    <Button
+        android:id="@+id/add_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_add_photo"
+        android:onClick="getCamera"/>
+    <Button
+        android:id="@+id/tempButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE"
+        android:onClick="saveGrub"/>
+
+
+    <EditText
+        android:id="@+id/item_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_item_name"
+        android:inputType="text"
+        android:paddingTop="@dimen/form_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/form_vertical_margin">
+
+        <Spinner
+            android:id="@+id/item_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:layout_gravity="start"
+            android:layout_weight="1"/>
+
+        <Spinner
+            android:id="@+id/item_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/grub_type"
+            android:focusable="true"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:contentDescription="Grub Type"/>
+
+    </LinearLayout>
+
+    <RatingBar
+        android:id="@+id/item_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/form_vertical_margin"
+        android:layout_gravity="center_horizontal"
+        android:numStars="5"
+        android:stepSize=".5" />
+
+    <EditText
+        android:id="@+id/item_description"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:paddingTop="@dimen/form_vertical_margin"
+        android:inputType="textMultiLine"
+        android:hint="@string/hint_item_desc"
+        android:gravity="start"/>
+
+
+</LinearLayout>

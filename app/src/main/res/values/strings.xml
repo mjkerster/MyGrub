@@ -2,7 +2,30 @@
 <resources>
 
     <string name="app_name">MyGrub</string>
+
+    <!-- Action Menu Items -->
+    <string name="action_add">Add</string>
+    <string name="action_search">Search</string>
+    <string name="action_map">Map</string>
+
+    <!-- Default main screen with no items -->
+    <string name="no_items">NO GRUB</string>
+    <string name="no_items_instructions">To get started select Add from the menu.</string>
+
+    <!-- Main List of My Grub Items Activity -->
     <string name="hello_world">Hello world!</string>
+
+    <!-- Add Item Activity -->
+    <string name="title_activity_add_item">Add Grub</string>
+    <string name="hint_item_name">Grub Name</string>
+    <string name="hint_item_desc">Grub Description</string>
     <string name="action_settings">Settings</string>
+    <string name="btn_add_photo">Add Photo</string>
+    <string-array name="grub_type">
+        <item>Home Cookin</item>
+        <item>Restaurant</item>
+        <item>Beer</item>
+        <item>Wine</item>
+    </string-array>
 
 </resources>
