@@ -21,6 +21,7 @@ public class GrubDbHelper extends SQLiteOpenHelper {
     public static final String COL_PHOTO_PATH = "PHOTO_PATH";
     public static final String COL_LAT = "LAT";
     public static final String COL_LONGI = "LONGI";
+    public static final String[] ALL_COLUMNS = {COL_ID, COL_EAT_DATE, COL_TYPE, COL_NAME, COL_DESC, COL_RATING, COL_PHOTO_PATH, COL_LAT, COL_LONGI};
 
     private static final String createTable = "CREATE TABLE IF NOT EXISTS "+ tableGrub +" ( "+ COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                                                                           COL_EAT_DATE +" DATE DEFAULT CURRENT_DATE, " +

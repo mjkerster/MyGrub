@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -32,8 +33,25 @@ public class GrubContentProvider extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        //TODO: Write code to do the query/search database call
-        return null;
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        Cursor returnCursor;
+        queryBuilder.setTables(GrubDbHelper.tableGrub);
+        int uriCase = uriMatcher.match(uri);
+
+        switch(uriCase){
+            case GRUB:
+                returnCursor =  queryBuilder.query(db.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
+                break;
+            case GRUB_PLUS_ID:
+                String id = uri.getLastPathSegment();
+                String idWhereClause = GrubDbHelper.COL_ID+" = "+ id;
+                returnCursor = queryBuilder.query(db.getReadableDatabase(), projection, idWhereClause+" AND "+ selection, selectionArgs, null, null, sortOrder);
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown URI: "+ uri);
+        }
+
+        return returnCursor;
     }
 
     @Override

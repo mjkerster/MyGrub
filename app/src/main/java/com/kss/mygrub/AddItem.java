@@ -55,7 +55,7 @@ public class AddItem extends Activity {
         grubValues.put(GrubDbHelper.COL_RATING, grubRating);
         grubValues.put(GrubDbHelper.COL_PHOTO_PATH, mCurrentPhotoPath);
 
-        Uri uri = Uri.parse("content://" + GrubContentProvider.AUTHORITY +"/" + GrubDbHelper.tableGrub);
+        Uri uri = Uri.parse("content://" + GrubContentProvider.AUTHORITY + "/" + GrubDbHelper.tableGrub);
         getContentResolver().insert(uri, grubValues);
 
     }
@@ -103,11 +103,13 @@ public class AddItem extends Activity {
         if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE){
             if(resultCode == RESULT_OK) {
 
-                File asd = new File(mCurrentPhotoPath);
-                Log.d("New File Created", asd.toURI().toString());
+                //File asd = new File(mCurrentPhotoPath);
+                //FileInputStream fs = new FileInputStream()
+                //Log.d("New File Created", asd.toURI().toString());
                 ImageView imageView = (ImageView) findViewById(R.id.grub_photo);
-                Uri uri = Uri.fromFile(asd);
-                imageView.setImageURI(uri);
+                //Uri uri = Uri.fromFile(asd);
+                //imageView.setImageURI(uri);
+                imageView.setImageBitmap(ImageUtility.decodeSampledBitmapFromPath(mCurrentPhotoPath,100, 100));
             }
         }
     }

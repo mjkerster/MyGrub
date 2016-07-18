@@ -1,8 +1,12 @@
 package com.kss.mygrub;
 
 import android.app.Activity;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,7 +17,10 @@ import android.widget.ListView;
 import java.lang.reflect.Field;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor>{
+
+    private GrubListAdapter grubListAdapter;
+    Uri uri = Uri.parse("content://" + GrubContentProvider.AUTHORITY +"/" + GrubDbHelper.tableGrub);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,25 +28,16 @@ public class MainActivity extends Activity {
         //An apparent hack I found on StackOverflow. Always displays the three dots in the action bar.
         getOverflowMenu();
 
-        GrubDbHelper db = GrubDbHelper.getInstance(this.getApplicationContext());
-        try {
-            //TODO:Replace getAllGrub with ContentProvider query
-            Cursor allGrub = db.getAllGrub();
-            Log.d("ALL GRUB", String.valueOf(allGrub.getCount()));
-            if(allGrub.getCount() > 0){
-                setContentView(R.layout.activity_main);
-                GrubListAdapter grubListAdapter = new GrubListAdapter(this.getApplicationContext(), allGrub, false);
-                ListView listView = (ListView) findViewById(R.id.grub_list_view);
-                listView.setAdapter(grubListAdapter);
-            }
-            else{
-                setContentView(R.layout.no_grub_main);
-            }
+        //GrubDbHelper db = GrubDbHelper.getInstance(this.getApplicationContext());
 
-        }
-        catch (NullPointerException e){
-            setContentView(R.layout.no_grub_main);
-        }
+        setContentView(R.layout.activity_main);
+        getLoaderManager().initLoader(0, null, this);
+        grubListAdapter = new GrubListAdapter(this.getApplicationContext(), null, false);
+        ListView listView = (ListView) findViewById(R.id.grub_list_view);
+        listView.setAdapter(grubListAdapter);
+
+        //setContentView(R.layout.no_grub_main);
+
 
     }
 
@@ -84,5 +82,22 @@ public class MainActivity extends Activity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        CursorLoader cursorLoader = new CursorLoader(this, uri, GrubDbHelper.ALL_COLUMNS, null, null, null);
+
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        grubListAdapter.changeCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        grubListAdapter.changeCursor(null);
     }
 }

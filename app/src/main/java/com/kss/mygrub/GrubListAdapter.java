@@ -3,13 +3,14 @@ package com.kss.mygrub;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 public class GrubListAdapter extends CursorAdapter {
 
@@ -37,17 +38,6 @@ public class GrubListAdapter extends CursorAdapter {
 
         grubListView.setTag(grubViewHolder);
 
-        grubViewHolder.name.setText(cursor.getString(cursor.getColumnIndex(GrubDbHelper.COL_NAME)));
-        grubViewHolder.desc.setText(cursor.getString(cursor.getColumnIndex(GrubDbHelper.COL_DESC)));
-        try{ //TODO: CLEAN THIS UP
-            grubViewHolder.photo.setImageURI(Uri.parse(cursor.getString(cursor.getColumnIndex(GrubDbHelper.COL_PHOTO_PATH))));
-        }
-        catch (NullPointerException e) {
-            grubViewHolder.photo.setImageResource(R.drawable.ic_action_picture);
-        }
-
-
-
         return grubListView;
     }
 
@@ -58,12 +48,17 @@ public class GrubListAdapter extends CursorAdapter {
 
         grubViewHolder.name.setText(cursor.getString(cursor.getColumnIndex(GrubDbHelper.COL_NAME)));
         grubViewHolder.desc.setText(cursor.getString(cursor.getColumnIndex(GrubDbHelper.COL_DESC)));
-        try{ //TODO: LIKE ABOVE, CLEAN THIS UP
-            grubViewHolder.photo.setImageURI(Uri.parse(cursor.getString(cursor.getColumnIndex(GrubDbHelper.COL_PHOTO_PATH))));
-        }
-        catch (NullPointerException e) {
-            grubViewHolder.photo.setImageResource(R.drawable.ic_action_picture);
-        }
 
+        Picasso pic = Picasso.with(context);
+        pic.setIndicatorsEnabled(false); //true adds indicator to the image
+        pic.setLoggingEnabled(false); //true add picasso logs (they aren't very helpful)
+
+        //used to handle null values from grub items with no picture
+        String path = (cursor.getString(cursor.getColumnIndex(GrubDbHelper.COL_PHOTO_PATH))==null)?"":cursor.getString(cursor.getColumnIndex(GrubDbHelper.COL_PHOTO_PATH));
+
+        //file:// is needed so that Picasso can properly grab the file locally.
+        //fit() changes the resolution and saves memory
+        //centerCrop() gets a square version of the image from the center.
+        pic.load("file://"+path).fit().centerCrop().into(grubViewHolder.photo);
     }
 }
